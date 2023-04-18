@@ -1,3 +1,14 @@
+/* Click on the file labeled styles.css in the 
+Files section of CodeSandbox. This file defines 
+the styles for your React app. The first two CSS
+ selectors (* and body) define the style of 
+ large parts of your app while the .square selector
+  defines the style of any component where the
+   className property is set to square. 
+   
+   In your code, that would match the button from 
+your Square component in the App.js file. */
+
 * {
   box-sizing: border-box;
 }
@@ -46,16 +57,6 @@ ul {
   padding-left: 20px;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
-}
-
 .square {
   background: #fff;
   border: 1px solid #999;
@@ -73,7 +74,7 @@ body {
 
 .board-row:after {
   clear: both;
-  content: '';
+  content: "";
   display: table;
 }
 
