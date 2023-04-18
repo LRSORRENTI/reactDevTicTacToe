@@ -182,13 +182,13 @@
 //  you’ll pass from the Board:
 
 
-function Square({value}){
-  return (
-     <>
-     <button className="square">{value}</button>
-     </>
-   )
- }
+// function Square({value}){
+//   return (
+//      <>
+//      <button className="square">1</button>
+//      </>
+//    )
+//  }
  
 //  You wanted to render the JavaScript
 //   variable called value from your component,
@@ -196,12 +196,157 @@ function Square({value}){
 //     JavaScript” from JSX, you need curly braces.
 //   Add curly braces around value in JSX like so:
 
+// function Square({value}) {
+//   return <button className="square">{value}</button>;
+// }
+
+
+// export default function Board(){
+//   return(
+//     <>
+//         <div className="board-row">
+//         <Square value={"X"}/>
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//     </>
+//   )
+// }
+
+// As of right now, the code above is rendering an 
+// empty board except for the first space, that's 
+// because we passed in "X" as the value for that 
+// Square
+
+// Making an interactive component:
+
+// Let’s fill the Square component with
+//  an X when you click it.
+ 
+//  Declare a function called 
+//  handleClick inside of the Square.
+ 
+//  Then, add onClick to the props of the button
+//  JSX element returned from the Square:
+
+// function Square({value}) {
+//   function handleClick() {
+//     console.log('clicked!');
+//   }
+
+//   return (
+//     <button
+//       className="square"
+//       onClick={handleClick}
+//     >
+//       {value}
+//     </button>
+//   );
+// }
+
+// export default function Board(){
+//   return(
+//     <>
+//         <div className="board-row">
+//         <Square value={"X"}/>
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//     </>
+//   )
+// }
+
+// If you click on a square now,
+//  you should see a log saying "clicked!" 
+//  in the Console tab of the browser
+  
+//   Clicking the square more than
+//    once will log "clicked!" again.
+//     Repeated console logs with the
+//      same message will not create more
+//       lines in the console. 
+      
+//       Instead, you will see an
+//        incrementing counter next 
+// //        to your first "clicked!" log.
+
+// For the next setPriority, we'll want to 
+// make sure each Square component will 
+// "remmember" if it's been clicked or not, and 
+// fill it in with an "X"
+
+// For components to "remmember" things we use a 
+// concept known as STATE
+
+// React includes a special built-in function called 
+// "useState", we call useState from a component where 
+// we want it to remember things. Let's store the 
+// current value of Square in state, and change it when 
+// onClick event fires, when the grid get's clicked 
+
+// In order to make use of useState we need to import
+// it, like you would if you were bringing in any 
+// kind of module
+
+import { useState } from "react";
+
+// Now that we have useState imported, 
+// remove the {value} parameter from 
+// Square, and we use a special 
+// syntax to utilize useState, 
+
+
+// function Square({value}) {
+  function Square(){
+const [valueAsStateVar, setValueSetterFunc] = useState(null);
+// valueAsStateVar stores the value, and setValueSetterFunc
+// is a function that will be used to change the valueAsStateVar
+// value, the null passed in to useState is used as an initial 
+// value for the state variable, so value initially begins as null  
+
+// and since the Square component no longer accepts 
+// props anymore, we remove the  <Square value={"X"}/>
+// we added below and change it to just <Square />
+
+function handleClick() {
+    console.log('clicked!');
+  }
+
+  return (
+    <button
+      className="square"
+      onClick={handleClick}
+    >
+      {value}
+    </button>
+  );
+}
 
 export default function Board(){
   return(
     <>
         <div className="board-row">
-        <Square />
+       <Square />
         <Square />
         <Square />
       </div>
