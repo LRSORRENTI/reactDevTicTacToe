@@ -329,6 +329,12 @@ const [valueAsStateVar, setValueSetterFunc] = useState(null);
 // we added below and change it to just <Square />
 
 function handleClick() {
+  // Now you’ll change Square to display an “X”
+  //  when clicked. Replace the 
+  //  console.log("clicked!"); 
+  //  event handler with setValue('X');. 
+  // Now your Square component looks like this:
+    setValueSetterFunc("X");
     console.log('clicked!');
   }
 
@@ -337,7 +343,7 @@ function handleClick() {
       className="square"
       onClick={handleClick}
     >
-      {value}
+      {valueAsStateVar}
     </button>
   );
 }
