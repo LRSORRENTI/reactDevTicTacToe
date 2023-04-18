@@ -89,25 +89,132 @@
 // In the App.js file, update the
 //  Square component to look like this:
 
-export default function Board() {
+// export default function Board() {
+//   return (
+//     <>
+//     <h1>TicTacToe</h1>
+//       <div className="board-row">
+//         <button className="square">1</button>
+//         <button className="square">2</button>
+//         <button className="square">3</button>
+//       </div>
+//       <div className="board-row">
+//         <button className="square">4</button>
+//         <button className="square">5</button>
+//         <button className="square">6</button>
+//       </div>
+//       <div className="board-row">
+//         <button className="square">7</button>
+//         <button className="square">8</button>
+//         <button className="square">9</button>
+//       </div>
+//     </>
+//   );
+// }
+// Passing data through props:
+
+// Next, you’ll want to change 
+// the value of a square from empty to “X” 
+// when the user clicks on the square.
+
+// With how you’ve built the board so
+//  far you would need to copy-paste
+//   the code that updates the square
+//    nine times
+//    (once for each square you have)! 
+//    Instead of copy-pasting, React’s component 
+//    architecture allows you to create a
+//     reusable component to avoid messy, duplicated code.
+
+// First, you are going to copy the 
+// line defining your first square (<button className="square">1</button>)
+//  from your Board component into a new Square component:
+
+//  function Square(){
+//  return (
+//     <>
+//     <button className="square">1</button>
+//     </>
+//   )
+// }
+
+// Then you’ll update the Board component to
+//  render that Square component using JSX syntax:
+
+// export default function Board(){
+//   return(
+//     <>
+//         <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//     </>
+//   )
+// }
+
+// So now our Board is rendered in the DOM like:
+// 1 1 1
+// 1 1 1 
+// 1 1 1
+
+// Oh no! You lost the numbered 
+// squares you had before.
+//  Now each square says “1”. 
+ 
+//  To fix this, you will use props
+//   to pass the value each square
+//    should have from the parent 
+//    component (Board) to its child (Square).
+
+// Update the Square component to
+//  read the value prop that 
+//  you’ll pass from the Board:
+
+
+function Square({value}){
   return (
+     <>
+     <button className="square">{value}</button>
+     </>
+   )
+ }
+ 
+//  You wanted to render the JavaScript
+//   variable called value from your component,
+//    not the word “value”. To “escape into
+//     JavaScript” from JSX, you need curly braces.
+//   Add curly braces around value in JSX like so:
+
+
+export default function Board(){
+  return(
     <>
-    <h1>TicTacToe</h1>
-      <div className="board-row">
-        <button className="square">1</button>
-        <button className="square">2</button>
-        <button className="square">3</button>
+        <div className="board-row">
+        <Square />
+        <Square />
+        <Square />
       </div>
       <div className="board-row">
-        <button className="square">4</button>
-        <button className="square">5</button>
-        <button className="square">6</button>
+        <Square />
+        <Square />
+        <Square />
       </div>
       <div className="board-row">
-        <button className="square">7</button>
-        <button className="square">8</button>
-        <button className="square">9</button>
+        <Square />
+        <Square />
+        <Square />
       </div>
     </>
-  );
+  )
 }
