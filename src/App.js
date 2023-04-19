@@ -308,7 +308,7 @@
 // it, like you would if you were bringing in any 
 // kind of module
 
-import { useState } from "react";
+// import { useState } from "react";
 
 // Now that we have useState imported, 
 // remove the {value} parameter from 
@@ -317,8 +317,8 @@ import { useState } from "react";
 
 
 // function Square({value}) {
-  function Square(){
-const [valueAsStateVar, setValueSetterFunc] = useState(null);
+//   function Square(){
+// const [valueAsStateVar, setValueSetterFunc] = useState(null);
 // valueAsStateVar stores the value, and setValueSetterFunc
 // is a function that will be used to change the valueAsStateVar
 // value, the null passed in to useState is used as an initial 
@@ -328,53 +328,53 @@ const [valueAsStateVar, setValueSetterFunc] = useState(null);
 // props anymore, we remove the  <Square value={"X"}/>
 // we added below and change it to just <Square />
 
-function handleClick() {
+// function handleClick() {
   // Now you’ll change Square to display an “X”
   //  when clicked. Replace the 
   //  console.log("clicked!"); 
   //  event handler with setValue('X');. 
   // Now your Square component looks like this:
-    setValueSetterFunc("X");
+    // setValueSetterFunc("X");
     // by calling the setter function from 
     // the onClick handler, handleClick, 
     // we tell React to re-render that 
     // square whenever the button is clicked
     // after the update the Square's valueAsStateVar
     // becomes "X", 
-    console.log('clicked!');
-  }
+//     console.log('clicked!');
+//   }
 
-  return (
-    <button
-      className="square"
-      onClick={handleClick}
-    >
-      {valueAsStateVar}
-    </button>
-  );
-}
+//   return (
+//     <button
+//       className="square"
+//       onClick={handleClick}
+//     >
+//       {valueAsStateVar}
+//     </button>
+//   );
+// }
 
-export default function Board(){
-  return(
-    <>
-        <div className="board-row">
-       <Square />
-        <Square />
-        <Square />
-      </div>
-      <div className="board-row">
-        <Square />
-        <Square />
-        <Square />
-      </div>
-      <div className="board-row">
-        <Square />
-        <Square />
-        <Square />
-      </div>
-    </>
-  );
-}
+// export default function Board(){
+//   return(
+//     <>
+//         <div className="board-row">
+//        <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//       <div className="board-row">
+//         <Square />
+//         <Square />
+//         <Square />
+//       </div>
+//     </>
+//   );
+// }
 
  // And in the React developer tools in the 
  // devtools, a few options over from console, 
@@ -403,7 +403,145 @@ export default function Board(){
 
 // How do we determine a winner?
 
+// ================
+// LIFTING STATE UP 
+// ================
+
 // Currently each Square component maintains a 
 // part of the games state, for our game to 
 // determine a winner, we need to somehow implement 
 // a way to check the state of all nine Square components 
+
+/* It may seem like one way to approach this 
+would be to "ask" each square for it's 
+state. This approach is technically possible 
+in React, we at React heavily discourage this approach
+because of three factors: 
+
+1. Your code becomes much more difficult to 
+understand 
+
+2. Your code becomes much more susceptible to 
+bugs
+
+3. Your code becomes much more challenging to refactor 
+in the future
+
+What's the ideal approach to determining a winner then?
+
+We should store the game's state in the parent 
+Board component, instead of in each Square
+
+The parent Board component can tell each square what to 
+display by passing in a property, or prop 
+
+Just like we did with Square where we set the value 
+to be a number. or "X" / "O"
+
+To collect data from multiple child components, 
+or to have multiple child components communicate 
+with each other, we declare the shared in the parent 
+Board component, and that parent Board component 
+will pass that state down to the children via 
+props, this keeps the child Square components nice 
+and *nsync with each other, and the parent Board 
+component
+
+Lifting state into a parent component is common 
+when React components are refactored 
+
+Let's try this out, edit the Board component
+ so that it declares a state variable named 
+ squares, which defaults to an array 
+ of 9 nulls, 1 for each empty square
+
+*/
+
+// import { useState } from "react";
+
+// export default function Board() {
+//   const [squares, setSqaures] = useState(Array(9).fill(null))
+  // Array(9).fill(null) will create an array, with 
+  // nine elements and sets each of them to null, the 
+  // useState() call around it declares a state variable
+  // that's initially set to that array, each entry in 
+  // that array corresponds to the value of a square, 
+  // when we fill the board in later, the squares array 
+  // above will look like: 
+
+  // ['O', 'null', 'X', 'X', 'X', 'X', 'O', 'O', null, null]
+
+  // Now the Board component needs to pass the value
+  // prop down to each square that it renders
+  //   return (
+  //   <>
+  //   <div className="board-row">
+  //     <Square value={[squares[0]]} /> 
+  //     <Square value={[squares[1]]} /> 
+  //     <Square value={[squares[2]]} /> 
+  //   </div>
+  //   <div className="board-row">
+  //     <Square value={[squares[3]]} /> 
+  //     <Square value={[squares[4]]} /> 
+  //     <Square value={[squares[5]]} /> 
+  //   </div>
+  //   <div className="board-row">
+  //     <Square value={[squares[6]]} /> 
+  //     <Square value={[squares[7]]} /> 
+  //     <Square value={[squares[8]]} /> 
+  //   </div>
+  // </>
+  //   );
+  // }
+
+  // Now we can edit the Square component to receive the 
+  // value prop from the Board component, this requires 
+  // removing the Square component's own stateful tracking 
+  // of value and the button's onClick prop: 
+
+  // function Square({value}) {
+  //   return <button className="square">{value}</button>;
+  // }
+
+  // function Square({value}) {
+  //   return <button className="square">{value}</button>;
+  // }
+
+// Now our code should look like: 
+
+
+
+
+  import { useState } from "react";
+
+  export default function Board() {
+    const [squares, setSqaures] = useState(Array(9).fill(null))
+
+  return (
+    <>
+    <div className="board-row">
+      <Square value={[squares[0]]} /> 
+      <Square value={[squares[1]]} /> 
+      <Square value={[squares[2]]} /> 
+    </div>
+    <div className="board-row">
+      <Square value={[squares[3]]} /> 
+      <Square value={[squares[4]]} /> 
+      <Square value={[squares[5]]} /> 
+    </div>
+    <div className="board-row">
+      <Square value={[squares[6]]} /> 
+      <Square value={[squares[7]]} /> 
+      <Square value={[squares[8]]} /> 
+    </div>
+  </>
+    );
+  }
+
+  // And our Board should be empty
+
+  // But now each square will receive a value 
+  // prop that will be 'X', 'O', or null for 
+  // empty sqaures 
+
+  
