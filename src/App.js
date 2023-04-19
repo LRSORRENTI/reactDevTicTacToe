@@ -512,31 +512,31 @@ Let's try this out, edit the Board component
 
 
 
-  import { useState } from "react";
+  // import { useState } from "react";
 
-  export default function Board() {
-    const [squares, setSqaures] = useState(Array(9).fill(null))
+  // export default function Board() {
+  //   const [squares, setSqaures] = useState(Array(9).fill(null))
 
-  return (
-    <>
-    <div className="board-row">
-      <Square value={[squares[0]]} /> 
-      <Square value={[squares[1]]} /> 
-      <Square value={[squares[2]]} /> 
-    </div>
-    <div className="board-row">
-      <Square value={[squares[3]]} /> 
-      <Square value={[squares[4]]} /> 
-      <Square value={[squares[5]]} /> 
-    </div>
-    <div className="board-row">
-      <Square value={[squares[6]]} /> 
-      <Square value={[squares[7]]} /> 
-      <Square value={[squares[8]]} /> 
-    </div>
-  </>
-    );
-  }
+  // return (
+  //   <>
+  //   <div className="board-row">
+  //     <Square value={[squares[0]]} /> 
+  //     <Square value={[squares[1]]} /> 
+  //     <Square value={[squares[2]]} /> 
+  //   </div>
+  //   <div className="board-row">
+  //     <Square value={[squares[3]]} /> 
+  //     <Square value={[squares[4]]} /> 
+  //     <Square value={[squares[5]]} /> 
+  //   </div>
+  //   <div className="board-row">
+  //     <Square value={[squares[6]]} /> 
+  //     <Square value={[squares[7]]} /> 
+  //     <Square value={[squares[8]]} /> 
+  //   </div>
+  // </>
+  //   );
+  // }
 
   // And our Board should be empty
 
@@ -580,4 +580,68 @@ Let's try this out, edit the Board component
         {value}
       </button>
     )
+  }
+
+  /* 
+  Now we need to connect the onSquareClick prop to 
+  // a function in the Board component, that we'll name 
+  handleClick, to connect onSquareClicj to handleClick, 
+  we pass a function to the onSquareClick prop of the 
+  first Square component
+  */
+
+  
+  import { useState } from "react";
+
+  export default function Board() {
+    const [squares, setSquares] = useState(Array(9).fill(null))
+// We need to define the handleClick function below that 
+// we're passing in to onSquareClick: 
+function handleClick(){
+  // this handleClick function will make a copy of 
+  // the squares array, we saved that copy to the 
+  // variable below: nextSquares, remember, .slice()
+  // creates a shallow copy of an array, meaning 
+  // it creates a new array with the same elements of 
+  // the original, but the original array are still 
+  // referring to the same array in memory
+  const nextSquares = squares.slice();
+  // then the handleClick updates the nextSquares 
+  // array to add 'X' at the zero index
+  nextSquares[0] = "X";
+  // then finally below we call the setSquares function 
+  // to let React know that the component state has 
+  // changed, this will trigger a re-render of the 
+  // components that use squares state(Board) as well 
+  // as the Square components that make up the board
+  setSquares(nextSquares)
+  // JavaScript supports closures which means
+  //  an inner function (e.g. handleClick) 
+  //  has access to variables and functions
+  //   defined in a outer function (e.g. Board).
+    
+  //   The handleClick function can read the 
+  //   squares state and call the setSquares
+  //    method because they
+  //  are both defined inside of the Board function.
+}
+  return (
+    <>
+    <div className="board-row">
+      <Square value={squares[0]} onSquareClick={handleClick} /> 
+      <Square value={[squares[1]]} /> 
+      <Square value={[squares[2]]} /> 
+    </div>
+    <div className="board-row">
+      <Square value={[squares[3]]} /> 
+      <Square value={[squares[4]]} /> 
+      <Square value={[squares[5]]} /> 
+    </div>
+    <div className="board-row">
+      <Square value={[squares[6]]} /> 
+      <Square value={[squares[7]]} /> 
+      <Square value={[squares[8]]} /> 
+    </div>
+  </>
+    );
   }
