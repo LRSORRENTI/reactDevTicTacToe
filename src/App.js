@@ -335,6 +335,12 @@ function handleClick() {
   //  event handler with setValue('X');. 
   // Now your Square component looks like this:
     setValueSetterFunc("X");
+    // by calling the setter function from 
+    // the onClick handler, handleClick, 
+    // we tell React to re-render that 
+    // square whenever the button is clicked
+    // after the update the Square's valueAsStateVar
+    // becomes "X", 
     console.log('clicked!');
   }
 
@@ -367,5 +373,37 @@ export default function Board(){
         <Square />
       </div>
     </>
-  )
+  );
 }
+
+ // And in the React developer tools in the 
+ // devtools, a few options over from console, 
+// and memory tabs, we can see our React squares, 
+// the squares that we clicked have: 
+
+// new entry: ""
+// hooks 1 State: null
+//  this is on an empty square,
+// hooks 1 State: "X"
+//  this is on a clicked square
+// rendered by
+
+// Board
+// createRoot()
+// react-dom@18.2.0
+
+// =======================
+// COMPLETING THE GAME 
+// =======================
+
+// By this point we've learned the basic building 
+// blocks for the tic-tac-toe game, to complete 
+// the game we need to alternate placing "X" and "O"
+// to determine a winner 
+
+// How do we determine a winner?
+
+// Currently each Square component maintains a 
+// part of the games state, for our game to 
+// determine a winner, we need to somehow implement 
+// a way to check the state of all nine Square components 
