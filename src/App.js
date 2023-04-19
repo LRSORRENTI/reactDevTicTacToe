@@ -544,4 +544,40 @@ Let's try this out, edit the Board component
   // prop that will be 'X', 'O', or null for 
   // empty sqaures 
 
-  
+  /* 
+  Now we need to change what happens when a Square 
+  is clicked, the Board component now maintains 
+  which squares are filled, we need to create a 
+  way for the a Square component to update the 
+  Boards state, since State is private to 
+  the component which defines it, we can't ever 
+  directly update Board's state from a Square component
+
+  */ 
+
+  /* 
+  Instead we pass down a function from the Board 
+  parent component to the Square component, and 
+  we'll have a Square call that function when that 
+  particular Square is clicked, we can call this 
+  function onSquareClick:
+  */
+
+  // function Square({ value }) {
+  //   return (
+  //     <button className="square" onClick={onSquareClick}>
+  //       {value}
+  //     </button>
+  //   );
+  // }
+
+  // Now that we have that we add that function to 
+  // Square component props: 
+
+  function Square({value, onSquareClick}){
+    return (
+      <button className="square" onClick={onSquareClick}>
+        {value}
+      </button>
+    )
+  }
