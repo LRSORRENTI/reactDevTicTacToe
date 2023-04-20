@@ -758,3 +758,71 @@ return (
   </>
 )
 }
+
+
+/* 
+We can now add X to any place on the board by 
+clicking on them, but the key difference is that now 
+all state management is handled by the Board component
+
+Now that your state handling is in 
+the Board component, the parent Board 
+component passes props to the child
+ Square components so that they can be 
+ displayed correctly. 
+ 
+ When clicking on a Square,
+  the child Square component now 
+  asks the parent Board component
+   to update the state of the board.
+   
+   When the Board’s state changes, 
+   both the Board component and every 
+   child Square re-renders automatically.
+    Keeping the state of all squares in
+     the Board component will allow it 
+     to determine the winner in the future.
+
+Let’s recap what happens when a
+ user clicks the top left square
+  on your board to add an X to it:
+
+  1. Clicking on the upper left square runs
+   the function that the button received 
+   as its onClick prop from the Square. 
+   The Square component received that 
+   function as its onSquareClick prop 
+   from the Board. The Board component 
+   defined that function directly 
+   in the JSX. It calls handleClick 
+   with an argument of 0.
+
+  2. handleClick uses the argument 
+  (0) to update the first 
+  element of the squares array from null to X.
+
+  3. The squares state of the Board
+   component was updated,
+    so the Board and all of
+     its children re-render.
+     This causes the value prop 
+     of the Square component 
+     with index 0 to change from null to X.
+
+     NOTE: The DOM <button> element’s onClick 
+     attribute has a special meaning to React 
+     because it is a built-in component.
+      For custom components like Square, 
+      the naming is up to you.
+      
+      You could give any name to the 
+      Square’s onSquareClick prop or
+       Board’s handleClick function, 
+       and the code would work the same. 
+       In React, it’s conventional to use 
+       onSomething names for props which 
+       represent events and handleSomething 
+       for the function definitions which handle 
+       those events.
+
+*/
