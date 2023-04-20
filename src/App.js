@@ -1,6 +1,9 @@
 // The code in App.js creates a component. 
 // In React, a component is a piece of reusable
 //  code that represents a part of a user interface.
+
+import { useState } from "react";
+
  
 //  Components are used to render, manage, 
 //  and update the UI elements in your application. 
@@ -574,13 +577,13 @@ Let's try this out, edit the Board component
   // Now that we have that we add that function to 
   // Square component props: 
 
-  function Square({value, onSquareClick}){
-    return (
-      <button className="square" onClick={onSquareClick}>
-        {value}
-      </button>
-    )
-  }
+  // function Square({value, onSquareClick}){
+  //   return (
+  //     <button className="square" onClick={onSquareClick}>
+  //       {value}
+  //     </button>
+  //   )
+  // }
 
   /* 
   Now we need to connect the onSquareClick prop to 
@@ -591,13 +594,13 @@ Let's try this out, edit the Board component
   */
 
   
-  import { useState } from "react";
+  // import { useState } from "react";
 
-  export default function Board() {
-    const [squares, setSquares] = useState(Array(9).fill(null))
+  // export default function Board() {
+  //   const [squares, setSquares] = useState(Array(9).fill(null))
 // We need to define the handleClick function below that 
 // we're passing in to onSquareClick: 
-function handleClick(){
+// function handleClick(){
   // this handleClick function will make a copy of 
   // the squares array, we saved that copy to the 
   // variable below: nextSquares, remember, .slice()
@@ -605,16 +608,16 @@ function handleClick(){
   // it creates a new array with the same elements of 
   // the original, but the original array are still 
   // referring to the same array in memory
-  const nextSquares = squares.slice();
+  // const nextSquares = squares.slice();
   // then the handleClick updates the nextSquares 
   // array to add 'X' at the zero index
-  nextSquares[0] = "X";
+  // nextSquares[0] = "X";
   // then finally below we call the setSquares function 
   // to let React know that the component state has 
   // changed, this will trigger a re-render of the 
   // components that use squares state(Board) as well 
   // as the Square components that make up the board
-  setSquares(nextSquares)
+  // setSquares(nextSquares)
   // JavaScript supports closures which means
   //  an inner function (e.g. handleClick) 
   //  has access to variables and functions
@@ -624,24 +627,284 @@ function handleClick(){
   //   squares state and call the setSquares
   //    method because they
   //  are both defined inside of the Board function.
-}
+
+  /*
+  Now we can add 'X's to the board, but only to that 
+  upper left square, our handleClick function is 
+  hardcoded to update the index for the upper left 
+  square below 
+        <Square value={squares[0]} onSquareClick={handleClick} /> 
+   We can now add an argument 'i' to handlClick that 
+   takes the index of the square to update 
+
+  */
+
+
+// }
+
+// export default function Board(){
+//   const [squares, setSquares] = useState(Array(9).fill(null));
+
+//   function handleClick(i){
+//     const nextSquares = squares.slice();
+//     nextSquares[i] = "X";
+//     setSquares(nextSquares)
+//   }
+
+//   return (
+//     <>
+//     <div className="board-row">
+//       <Square value={squares[0]} onSquareClick={handleClick(0)} /> 
+//       <Square value={[squares[1]]} /> 
+//       <Square value={[squares[2]]} /> 
+//     </div>
+//     <div className="board-row">
+//       <Square value={[squares[3]]} /> 
+//       <Square value={[squares[4]]} /> 
+//       <Square value={[squares[5]]} /> 
+//     </div>
+//     <div className="board-row">
+//       <Square value={[squares[6]]} /> 
+//       <Square value={[squares[7]]} /> 
+//       <Square value={[squares[8]]} /> 
+//     </div>
+//   </>
+//     );
+//   }
+// console.log(1)
+
+/* 
+Now we have a different error message: 
+
+Too many re-renders. React limits the number 
+of renders to prevent an infinite loop.
+
+Why didn't this happen earlier? 
+
+When we passed onSquareClick={handleClick}, we 
+passed in the handleClick function as a prop, we 
+were not actually calling it !
+
+But now we're calling that function right away, 
+notice the parentheses in handleClick(0), that's why 
+it runs early, we don't want this handleClick to 
+fire before the user clicks!
+
+One way we could fix this is creating a func called 
+handleFirstSquareClick for handleClick(0), 
+handleSecondSquareClick for handleClick(1) etc.. 
+all the way until we get to 8, but defining 9 
+total functions for each individual square is not 
+ideal, there's usually a simpler, less verbose, 
+more concise solution
+
+export default function Board() {
+  // ...
   return (
     <>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        // ...
+  );
+}
+
+Notice the new () => syntax. Here, () => handleClick(0) 
+is a arrow func, when the square is clicked, the code following 
+the => executes, handleClick(0)
+
+So now we need to update the other eight squares to 
+call handleClick from the arrow funcs we pass, making 
+sure the argument for each call of handleClick 
+corresponds to the correct square
+
+*/
+
+
+function Square({value, onSquareClick}){
+  return (
+    <button className="square" onClick={onSquareClick}>
+      {value}
+    </button>
+  )
+}
+
+
+export default function Board(){
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  function handleClick(i){
+    const nextSquares = squares.slice();
+    nextSquares[i] = "X";
+    setSquares(nextSquares)
+  }
+
+return (
+  <>
     <div className="board-row">
-      <Square value={squares[0]} onSquareClick={handleClick} /> 
-      <Square value={[squares[1]]} /> 
-      <Square value={[squares[2]]} /> 
+      <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+      <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+      <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
     </div>
     <div className="board-row">
-      <Square value={[squares[3]]} /> 
-      <Square value={[squares[4]]} /> 
-      <Square value={[squares[5]]} /> 
+      <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+      <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+      <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
     </div>
     <div className="board-row">
-      <Square value={[squares[6]]} /> 
-      <Square value={[squares[7]]} /> 
-      <Square value={[squares[8]]} /> 
+      <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+      <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+      <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
     </div>
   </>
-    );
-  }
+)
+}
+
+
+/* 
+We can now add X to any place on the board by 
+clicking on them, but the key difference is that now 
+all state management is handled by the Board component
+
+Now that your state handling is in 
+the Board component, the parent Board 
+component passes props to the child
+ Square components so that they can be 
+ displayed correctly. 
+ 
+ When clicking on a Square,
+  the child Square component now 
+  asks the parent Board component
+   to update the state of the board.
+   
+   When the Board’s state changes, 
+   both the Board component and every 
+   child Square re-renders automatically.
+    Keeping the state of all squares in
+     the Board component will allow it 
+     to determine the winner in the future.
+
+Let’s recap what happens when a
+ user clicks the top left square
+  on your board to add an X to it:
+
+  1. Clicking on the upper left square runs
+   the function that the button received 
+   as its onClick prop from the Square. 
+   The Square component received that 
+   function as its onSquareClick prop 
+   from the Board. The Board component 
+   defined that function directly 
+   in the JSX. It calls handleClick 
+   with an argument of 0.
+
+  2. handleClick uses the argument 
+  (0) to update the first 
+  element of the squares array from null to X.
+
+  3. The squares state of the Board
+   component was updated,
+    so the Board and all of
+     its children re-render.
+     This causes the value prop 
+     of the Square component 
+     with index 0 to change from null to X.
+
+     NOTE: The DOM <button> element’s onClick 
+     attribute has a special meaning to React 
+     because it is a built-in component.
+      For custom components like Square, 
+      the naming is up to you.
+      
+      You could give any name to the 
+      Square’s onSquareClick prop or
+       Board’s handleClick function, 
+       and the code would work the same. 
+       In React, it’s conventional to use 
+       onSomething names for props which 
+       represent events and handleSomething 
+       for the function definitions which handle 
+       those events.
+
+*/
+
+/* 
+
+Why immutability is important: 
+
+Note how with handleClick we call.slice() create a 
+copy of the squares array, instead of modifying 
+the existing array 
+
+The reason this is important to note has to do 
+with the concept of IMMUTABILITY, this concept 
+is critical to digest and absorb, it's a concept 
+applicable across programming
+
+There are two approaches to changing data: 
+
+1. Mutate the data directly by changing the value's 
+of said data
+
+2. Replace the data with a new copy with the 
+desired changes
+
+let's look at an example of mutating the squares 
+array:
+
+*/
+
+// const squares = [null, null, null, null, null, null, null, null, null];
+// squares[0] = 'X';
+
+// Now `squares` is ["X", null, null, null, null, null, null, null, null];
+// We've directly mutated the array
+
+// And here is what it would look like 
+// if you changed data without mutating 
+// the squares array:
+
+const squares = [null, null, null, null, null, null, null, null, null];
+const nextSquares = ['X', null, null, null, null, null, null, null, null];
+// Now `squares` is unchanged, but `nextSquares` first element is 'X' rather than `null`
+
+// We've achieved the same but without mutating the 
+// original array data directly, and in this we gain 
+// several benefits
+
+/*
+Immutability makes complex features much easier 
+to implement, later in this project we'll implement 
+a 'time travel' feature to review the game's history 
+and 'jump back in time' to previous moves 
+
+This kind of functionality is not specific to games 
+like tic-tac-toe, the ability to revert to previous 
+states is common for applications these days, and 
+avoiding directly mutating the original data, helps 
+us achieve this goal. We can keep previous versions 
+of data intact, to re-use them later if need be
+
+*/
+
+/* 
+
+Another benefit of immutability, is that by default 
+every child component re-renders automatically,
+when the state of a parent component changes. 
+
+This includes even the child components that weren't 
+affected by the change, although re-rendering by itself 
+is not noticebale to the end user, we should do our best 
+to avoid re-rendering whenever possible, it's a good 
+practice to skip re-rendering part of the tree if it 
+was not clearly affected by it for performance reasons
+
+Immutability makes it very cheap for components to compare 
+whether or not their data has been mutated or not. 
+
+Here's a link to view how react chooses when to 
+re-render here: https://www.react.dev/reference/react/memo
+
+
+
+*/ 
