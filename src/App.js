@@ -826,3 +826,85 @@ Let’s recap what happens when a
        those events.
 
 */
+
+/* 
+
+Why immutability is important: 
+
+Note how with handleClick we call.slice() create a 
+copy of the squares array, instead of modifying 
+the existing array 
+
+The reason this is important to note has to do 
+with the concept of IMMUTABILITY, this concept 
+is critical to digest and absorb, it's a concept 
+applicable across programming
+
+There are two approaches to changing data: 
+
+1. Mutate the data directly by changing the value's 
+of said data
+
+2. Replace the data with a new copy with the 
+desired changes
+
+let's look at an example of mutating the squares 
+array:
+
+*/
+
+// const squares = [null, null, null, null, null, null, null, null, null];
+// squares[0] = 'X';
+
+// Now `squares` is ["X", null, null, null, null, null, null, null, null];
+// We've directly mutated the array
+
+// And here is what it would look like 
+// if you changed data without mutating 
+// the squares array:
+
+const squares = [null, null, null, null, null, null, null, null, null];
+const nextSquares = ['X', null, null, null, null, null, null, null, null];
+// Now `squares` is unchanged, but `nextSquares` first element is 'X' rather than `null`
+
+// We've achieved the same but without mutating the 
+// original array data directly, and in this we gain 
+// several benefits
+
+/*
+Immutability makes complex features much easier 
+to implement, later in this project we'll implement 
+a 'time travel' feature to review the game's history 
+and 'jump back in time' to previous moves 
+
+This kind of functionality is not specific to games 
+like tic-tac-toe, the ability to revert to previous 
+states is common for applications these days, and 
+avoiding directly mutating the original data, helps 
+us achieve this goal. We can keep previous versions 
+of data intact, to re-use them later if need be
+
+*/
+
+/* 
+
+Another benefit of immutability, is that by default 
+every child component re-renders automatically,
+when the state of a parent component changes. 
+
+This includes even the child components that weren't 
+affected by the change, although re-rendering by itself 
+is not noticebale to the end user, we should do our best 
+to avoid re-rendering whenever possible, it's a good 
+practice to skip re-rendering part of the tree if it 
+was not clearly affected by it for performance reasons
+
+Immutability makes it very cheap for components to compare 
+whether or not their data has been mutated or not. 
+
+Here's a link to view how react chooses when to 
+re-render here: https://www.react.dev/reference/react/memo
+
+
+
+*/ 
