@@ -1,6 +1,9 @@
 // The code in App.js creates a component. 
 // In React, a component is a piece of reusable
 //  code that represents a part of a user interface.
+
+import { useState } from "react";
+
  
 //  Components are used to render, manage, 
 //  and update the UI elements in your application. 
@@ -591,13 +594,13 @@ Let's try this out, edit the Board component
   */
 
   
-  import { useState } from "react";
+  // import { useState } from "react";
 
-  export default function Board() {
-    const [squares, setSquares] = useState(Array(9).fill(null))
+  // export default function Board() {
+  //   const [squares, setSquares] = useState(Array(9).fill(null))
 // We need to define the handleClick function below that 
 // we're passing in to onSquareClick: 
-function handleClick(){
+// function handleClick(){
   // this handleClick function will make a copy of 
   // the squares array, we saved that copy to the 
   // variable below: nextSquares, remember, .slice()
@@ -605,16 +608,16 @@ function handleClick(){
   // it creates a new array with the same elements of 
   // the original, but the original array are still 
   // referring to the same array in memory
-  const nextSquares = squares.slice();
+  // const nextSquares = squares.slice();
   // then the handleClick updates the nextSquares 
   // array to add 'X' at the zero index
-  nextSquares[0] = "X";
+  // nextSquares[0] = "X";
   // then finally below we call the setSquares function 
   // to let React know that the component state has 
   // changed, this will trigger a re-render of the 
   // components that use squares state(Board) as well 
   // as the Square components that make up the board
-  setSquares(nextSquares)
+  // setSquares(nextSquares)
   // JavaScript supports closures which means
   //  an inner function (e.g. handleClick) 
   //  has access to variables and functions
@@ -624,24 +627,124 @@ function handleClick(){
   //   squares state and call the setSquares
   //    method because they
   //  are both defined inside of the Board function.
-}
+
+  /*
+  Now we can add 'X's to the board, but only to that 
+  upper left square, our handleClick function is 
+  hardcoded to update the index for the upper left 
+  square below 
+        <Square value={squares[0]} onSquareClick={handleClick} /> 
+   We can now add an argument 'i' to handlClick that 
+   takes the index of the square to update 
+
+  */
+
+
+// }
+
+// export default function Board(){
+//   const [squares, setSquares] = useState(Array(9).fill(null));
+
+//   function handleClick(i){
+//     const nextSquares = squares.slice();
+//     nextSquares[i] = "X";
+//     setSquares(nextSquares)
+//   }
+
+//   return (
+//     <>
+//     <div className="board-row">
+//       <Square value={squares[0]} onSquareClick={handleClick(0)} /> 
+//       <Square value={[squares[1]]} /> 
+//       <Square value={[squares[2]]} /> 
+//     </div>
+//     <div className="board-row">
+//       <Square value={[squares[3]]} /> 
+//       <Square value={[squares[4]]} /> 
+//       <Square value={[squares[5]]} /> 
+//     </div>
+//     <div className="board-row">
+//       <Square value={[squares[6]]} /> 
+//       <Square value={[squares[7]]} /> 
+//       <Square value={[squares[8]]} /> 
+//     </div>
+//   </>
+//     );
+//   }
+// console.log(1)
+
+/* 
+Now we have a different error message: 
+
+Too many re-renders. React limits the number 
+of renders to prevent an infinite loop.
+
+Why didn't this happen earlier? 
+
+When we passed onSquareClick={handleClick}, we 
+passed in the handleClick function as a prop, we 
+were not actually calling it !
+
+But now we're calling that function right away, 
+notice the parentheses in handleClick(0), that's why 
+it runs early, we don't want this handleClick to 
+fire before the user clicks!
+
+One way we could fix this is creating a func called 
+handleFirstSquareClick for handleClick(0), 
+handleSecondSquareClick for handleClick(1) etc.. 
+all the way until we get to 8, but defining 9 
+total functions for each individual square is not 
+ideal, there's usually a simpler, less verbose, 
+more concise solution
+
+export default function Board() {
+  // ...
   return (
     <>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        // ...
+  );
+}
+
+Notice the new () => syntax. Here, () => handleClick(0) 
+is a arrow func, when the square is clicked, the code following 
+the => executes, handleClick(0)
+
+So now we need to update the other eight squares to 
+call handleClick from the arrow funcs we pass, making 
+sure the argument for each call of handleClick 
+corresponds to the correct square
+
+*/
+
+export default function Board(){
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  function handleClick(i){
+    const nextSquares = squares.slice();
+    nextSquares[i] = "X";
+    setSquares(nextSquares)
+  }
+
+return (
+  <>
     <div className="board-row">
-      <Square value={squares[0]} onSquareClick={handleClick} /> 
-      <Square value={[squares[1]]} /> 
-      <Square value={[squares[2]]} /> 
+      <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+      <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+      <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
     </div>
     <div className="board-row">
-      <Square value={[squares[3]]} /> 
-      <Square value={[squares[4]]} /> 
-      <Square value={[squares[5]]} /> 
+      <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+      <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+      <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
     </div>
     <div className="board-row">
-      <Square value={[squares[6]]} /> 
-      <Square value={[squares[7]]} /> 
-      <Square value={[squares[8]]} /> 
+      <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+      <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+      <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
     </div>
   </>
-    );
-  }
+)
+}
