@@ -577,13 +577,13 @@ Let's try this out, edit the Board component
   // Now that we have that we add that function to 
   // Square component props: 
 
-  function Square({value, onSquareClick}){
-    return (
-      <button className="square" onClick={onSquareClick}>
-        {value}
-      </button>
-    )
-  }
+  // function Square({value, onSquareClick}){
+  //   return (
+  //     <button className="square" onClick={onSquareClick}>
+  //       {value}
+  //     </button>
+  //   )
+  // }
 
   /* 
   Now we need to connect the onSquareClick prop to 
@@ -718,6 +718,16 @@ sure the argument for each call of handleClick
 corresponds to the correct square
 
 */
+
+
+function Square({value, onSquareClick}){
+  return (
+    <button className="square" onClick={onSquareClick}>
+      {value}
+    </button>
+  )
+}
+
 
 export default function Board(){
   const [squares, setSquares] = useState(Array(9).fill(null));
