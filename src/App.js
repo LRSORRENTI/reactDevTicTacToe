@@ -908,3 +908,54 @@ re-render here: https://www.react.dev/reference/react/memo
 
 
 */ 
+
+/*
+
+TAKING TURNS
+
+Now let's fix the major defect in this game as it is
+right now, how do we insert "O"'s on the board.
+
+You'll set the first move to be "X" by default, 
+let's keep track of this by adding another piece of 
+state to the Board component:
+
+function Board() {
+
+     const [xIsNext, setXIsNext] = useState(true);
+     // The above is our new piece of state
+
+     const [squares, setSquares] = useState(Array(9).fill(null));
+
+}
+
+Each time a player moves, xIsNext(our boolean) is 
+flipped to determine which player goes next and the 
+game's state will be saved
+
+We update the Board's handleClick() function to flip 
+the value of xIsNext
+
+export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  function handleClick(i) {
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = "X";
+    } else {
+      nextSquares[i] = "O";
+    }
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext);
+  }
+
+  return (
+    //...
+  );
+}
+
+
+
+*/
