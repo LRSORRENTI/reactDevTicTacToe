@@ -720,44 +720,44 @@ corresponds to the correct square
 */
 
 
-function Square({value, onSquareClick}){
-  return (
-    <button className="square" onClick={onSquareClick}>
-      {value}
-    </button>
-  )
-}
+// function Square({value, onSquareClick}){
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   )
+// }
 
 
-export default function Board(){
-  const [squares, setSquares] = useState(Array(9).fill(null));
+// export default function Board(){
+//   const [squares, setSquares] = useState(Array(9).fill(null));
 
-  function handleClick(i){
-    const nextSquares = squares.slice();
-    nextSquares[i] = "X";
-    setSquares(nextSquares)
-  }
+//   function handleClick(i){
+//     const nextSquares = squares.slice();
+//     nextSquares[i] = "X";
+//     setSquares(nextSquares)
+//   }
 
-return (
-  <>
-    <div className="board-row">
-      <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-      <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-      <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-    </div>
-    <div className="board-row">
-      <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-      <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-      <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-    </div>
-    <div className="board-row">
-      <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-      <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-      <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-    </div>
-  </>
-)
-}
+// return (
+//   <>
+//     <div className="board-row">
+//       <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//       <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//       <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//     </div>
+//     <div className="board-row">
+//       <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//       <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//       <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//     </div>
+//     <div className="board-row">
+//       <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//       <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//       <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//     </div>
+//   </>
+// )
+// }
 
 
 /* 
@@ -863,8 +863,8 @@ array:
 // if you changed data without mutating 
 // the squares array:
 
-const squares = [null, null, null, null, null, null, null, null, null];
-const nextSquares = ['X', null, null, null, null, null, null, null, null];
+// const squares = [null, null, null, null, null, null, null, null, null];
+// const nextSquares = ['X', null, null, null, null, null, null, null, null];
 // Now `squares` is unchanged, but `nextSquares` first element is 'X' rather than `null`
 
 // We've achieved the same but without mutating the 
@@ -908,3 +908,313 @@ re-render here: https://www.react.dev/reference/react/memo
 
 
 */ 
+
+/*
+
+TAKING TURNS
+
+Now let's fix the major defect in this game as it is
+right now, how do we insert "O"'s on the board.
+
+You'll set the first move to be "X" by default, 
+let's keep track of this by adding another piece of 
+state to the Board component:
+
+function Board() {
+
+     const [xIsNext, setXIsNext] = useState(true);
+     // The above is our new piece of state
+
+     const [squares, setSquares] = useState(Array(9).fill(null));
+
+}
+
+Each time a player moves, xIsNext(our boolean) is 
+flipped to determine which player goes next and the 
+game's state will be saved
+
+We update the Board's handleClick() function to flip 
+the value of xIsNext
+
+export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  function handleClick(i) {
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = "X";
+    } else {
+      nextSquares[i] = "O";
+    }
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext);
+  }
+
+  return (
+    //...
+  );
+}
+
+
+
+*/
+
+// function Square({value, onSquareClick}){
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   )
+// }
+
+
+// const squares = [null, null, null, null, null, null, null, null, null];
+// const nextSquares = ['X', null, null, null, null, null, null, null, null];
+
+// export default function Board() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [squares, setSquares] = useState(Array(9).fill(null));
+
+//   function handleClick(i) {
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = "X";
+//     } else {
+//       nextSquares[i] = "O";
+//     }
+//     setSquares(nextSquares);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   return (
+//     <>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   )
+//   }
+
+/* 
+
+Now as we click from one square to another, we see 
+it does alternate from "X"'s to "O"'s
+
+But we have a problem, if we click on a square that's 
+already been clicked and is displaying an "X" or "O"
+
+We see the behavior is that the square keeps changing 
+back and forth "X" to "O", "O" to "X" on every click 
+event
+
+When we mark a square with an 'X' or 'O', we aren't 
+doing any  checks to see if a given 
+square already has an "X" or "O" value
+
+We can fix this by returning early, we check
+to see if the square already has "X" or "O", 
+if the square is already filled, we return 
+in the handleClick function early, before it 
+tries to update the board state
+
+
+*/
+
+
+// function Square({value, onSquareClick}){
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   )
+// }
+
+
+// const squares = [null, null, null, null, null, null, null, null, null];
+// const nextSquares = ['X', null, null, null, null, null, null, null, null];
+
+// export default function Board() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [squares, setSquares] = useState(Array(9).fill(null));
+
+//   function handleClick(i) {
+//     if(squares[i]){
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = "X";
+//     } else {
+//       nextSquares[i] = "O";
+//     }
+//     setSquares(nextSquares);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   return (
+//     <>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   )
+//   }
+
+
+  /* 
+  
+  Now our board can only add "X" or "O" to empty 
+  squares, pressing the same square more than 
+  once will not alternate between "X" and "O"
+  anymore
+
+  */
+
+  /* 
+  
+  DECLARING A WINNER 
+
+  Now that the players can take turns, we need to 
+  add the logic to check for a winner, we can do this 
+  using a function, called calculateWinner or 
+  determineWinner, this function will take an 
+  array of 9 squares, check for a winner and returns 
+  "X", "O", or null as it's appropriate
+
+  */
+
+  function determineWinner(squares){
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for(let i = 0; i < lines.length; i++){
+      const [a, b, c] = lines[i];
+      if(squares[a] && squares[a] === 
+        squares[b] && squares[a] === 
+        squares[c]){
+          return squares[a];
+        }
+    }
+    return null;
+  }
+
+  // Quick note, it doesn't matter where our 
+  // detemineWinner function is positioned in 
+  // our code, we can put it at the end or above,
+  // up to you
+
+  /* 
+  
+We call the determineWinner(squares) in the 
+Board component's handleClick function to check if 
+a player has won, we perform this check at the same time 
+we check if a user has clicked a sqaure that has an "x" 
+or an "O", then we return early in both cases
+
+
+  */
+
+
+function Square({value, onSquareClick}){
+  return (
+    <button className="square" onClick={onSquareClick}>
+      {value}
+    </button>
+  )
+}
+
+
+const squares = [null, null, null, null, null, null, null, null, null];
+const nextSquares = ['X', null, null, null, null, null, null, null, null];
+
+export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  function handleClick(i) {
+    // now we modify the if statement below
+    // to check if a player has won, we can 
+    // also check is a square has already been 
+    // clicked, which we implemented earlier
+    // with the if(squares[i])
+    if(squares[i] || determineWinner(squares)){
+      return;
+    }
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = "X";
+    } else {
+      nextSquares[i] = "O";
+    }
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext);
+  }
+
+// Now we add the const winner = below
+
+const winner = determineWinner(squares);
+let status;
+if(winner){
+  status = `Winner is: ${winner}`
+} else {
+  status = `Next player: ${xIsNext ? "X" : "O"} `
+}
+// if(winner) {
+//   status = 'Winner: ' + winner;
+// } else {
+//   status = 'Next player: ' + (xIsNext ? 'X' : 'O')
+// }
+
+  return (
+    <>
+    <div className="status">{status}</div>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+      </div>
+    </>
+  )
+  }
