@@ -960,6 +960,80 @@ export default function Board() {
 
 */
 
+// function Square({value, onSquareClick}){
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   )
+// }
+
+
+// const squares = [null, null, null, null, null, null, null, null, null];
+// const nextSquares = ['X', null, null, null, null, null, null, null, null];
+
+// export default function Board() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [squares, setSquares] = useState(Array(9).fill(null));
+
+//   function handleClick(i) {
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = "X";
+//     } else {
+//       nextSquares[i] = "O";
+//     }
+//     setSquares(nextSquares);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   return (
+//     <>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   )
+//   }
+
+/* 
+
+Now as we click from one square to another, we see 
+it does alternate from "X"'s to "O"'s
+
+But we have a problem, if we click on a square that's 
+already been clicked and is displaying an "X" or "O"
+
+We see the behavior is that the square keeps changing 
+back and forth "X" to "O", "O" to "X" on every click 
+event
+
+When we mark a square with an 'X' or 'O', we aren't 
+doing any  checks to see if a given 
+square already has an "X" or "O" value
+
+We can fix this by returning early, we check
+to see if the square already has "X" or "O", 
+if the square is already filled, we return 
+in the handleClick function early, before it 
+tries to update the board state
+
+
+*/
+
+
 function Square({value, onSquareClick}){
   return (
     <button className="square" onClick={onSquareClick}>
@@ -977,6 +1051,9 @@ export default function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
 
   function handleClick(i) {
+    if(squares[i]){
+      return;
+    }
     const nextSquares = squares.slice();
     if (xIsNext) {
       nextSquares[i] = "X";
@@ -1008,16 +1085,56 @@ export default function Board() {
   )
   }
 
-/* 
 
-Now as we click from one square to another, we see 
-it does alternate from "X"'s to "O"'s
+  /* 
+  
+  Now our board can only add "X" or "O" to empty 
+  squares, pressing the same square more than 
+  once will not alternate between "X" and "O"
+  anymore
 
-But we have a problem, if we click on a square that's 
-already been clicked and is displaying an "X" or "O"
+  */
 
-We see the behavior is that the square keeps changing 
-back and forth "X" to "O", "O" to "X" on every click 
-event
+  /* 
+  
+  DECLARING A WINNER 
 
-*/
+  Now that the players can take turns, we need to 
+  add the logic to check for a winner, we can do this 
+  using a function, called calculateWinner or 
+  determineWinner, this function will take an 
+  array of 9 squares, check for a winner and returns 
+  "X", "O", or null as it's appropriate
+
+  */
+
+  function determineWinner(squares){
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for(i = 0; i < lines.length; i++){
+      const [a, b, c] = lines[i];
+      if(squares[a] && squares[a] === 
+        squares[b] && squares[a] === 
+        squares[c]){
+          return squares[a];
+        }
+    }
+    return null;
+  }
+
+  // Quick note, it doesn't matter where our 
+  // detemineWinner function is positioned in 
+  // our code, we can put it at the end or above,
+  // up to you
+
+  /* 
+  
+  */
