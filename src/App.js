@@ -1218,3 +1218,46 @@ if(winner){
     </>
   )
   }
+
+  /* 
+
+ADDING TIME TRAVEL
+
+As the finale to our project, we're going to 
+implement a time-travel mechanic to 'Go back 
+in time' to previous moves in the game.
+
+To achieve this, we need to store a history 
+of moves that have been made, how do we do this?
+
+If we mutated the squares array, implememting 
+our TT (time travel) function would be challenging
+
+BUT, if we used the built in slice() method, remember 
+with slice we create a copy, of the squares array 
+after every move, then treat it as immutable. 
+
+This allows us to store every past version of the 
+squares array, and navigate between the turns that have 
+already come to pass. 
+
+We store the past squares in a new array called 
+'history' or 'pastMoves' this history array will 
+represent all board states from the first move, 
+all the way until the final move, and will 
+have a shape like this: 
+
+[
+  // Before first move
+  [null, null, null, null, null, null, null, null, null],
+ 
+  // After first move
+  [null, null, null, null, 'X', null, null, null, null],
+  
+  // After second move
+  [null, null, null, null, 'X', null, null, null, 'O'],
+  
+  // On and on until the end 
+]
+*/
+
