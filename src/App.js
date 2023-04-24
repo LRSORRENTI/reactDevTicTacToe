@@ -1108,27 +1108,27 @@ tries to update the board state
 
   */
 
-  function determineWinner(squares){
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for(let i = 0; i < lines.length; i++){
-      const [a, b, c] = lines[i];
-      if(squares[a] && squares[a] === 
-        squares[b] && squares[a] === 
-        squares[c]){
-          return squares[a];
-        }
-    }
-    return null;
-  }
+  // function determineWinner(squares){
+  //   const lines = [
+  //     [0, 1, 2],
+  //     [3, 4, 5],
+  //     [6, 7, 8],
+  //     [0, 3, 6],
+  //     [1, 4, 7],
+  //     [2, 5, 8],
+  //     [0, 4, 8],
+  //     [2, 4, 6],
+  //   ];
+  //   for(let i = 0; i < lines.length; i++){
+  //     const [a, b, c] = lines[i];
+  //     if(squares[a] && squares[a] === 
+  //       squares[b] && squares[a] === 
+  //       squares[c]){
+  //         return squares[a];
+  //       }
+  //   }
+  //   return null;
+  // }
 
   // Quick note, it doesn't matter where our 
   // detemineWinner function is positioned in 
@@ -1147,77 +1147,77 @@ or an "O", then we return early in both cases
   */
 
 
-function Square({value, onSquareClick}){
-  return (
-    <button className="square" onClick={onSquareClick}>
-      {value}
-    </button>
-  )
-}
+// function Square({value, onSquareClick}){
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   )
+// }
 
 
-const squares = [null, null, null, null, null, null, null, null, null];
-const nextSquares = ['X', null, null, null, null, null, null, null, null];
+// const squares = [null, null, null, null, null, null, null, null, null];
+// const nextSquares = ['X', null, null, null, null, null, null, null, null];
 
-export default function Board() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
+// export default function Board() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [squares, setSquares] = useState(Array(9).fill(null));
 
-  function handleClick(i) {
+//   function handleClick(i) {
     // now we modify the if statement below
     // to check if a player has won, we can 
     // also check is a square has already been 
     // clicked, which we implemented earlier
     // with the if(squares[i])
-    if(squares[i] || determineWinner(squares)){
-      return;
-    }
-    const nextSquares = squares.slice();
-    if (xIsNext) {
-      nextSquares[i] = "X";
-    } else {
-      nextSquares[i] = "O";
-    }
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
-  }
+  //   if(squares[i] || determineWinner(squares)){
+  //     return;
+  //   }
+  //   const nextSquares = squares.slice();
+  //   if (xIsNext) {
+  //     nextSquares[i] = "X";
+  //   } else {
+  //     nextSquares[i] = "O";
+  //   }
+  //   setSquares(nextSquares);
+  //   setXIsNext(!xIsNext);
+  // }
 
 // Now we add the const winner = below
 
-const winner = determineWinner(squares);
-let status;
-if(winner){
-  status = `Winner is: ${winner}`
-} else {
-  status = `Next player: ${xIsNext ? "X" : "O"} `
-}
+// const winner = determineWinner(squares);
+// let status;
+// if(winner){
+//   status = `Winner is: ${winner}`
+// } else {
+//   status = `Next player: ${xIsNext ? "X" : "O"} `
+// }
 // if(winner) {
 //   status = 'Winner: ' + winner;
 // } else {
 //   status = 'Next player: ' + (xIsNext ? 'X' : 'O')
 // }
 
-  return (
-    <>
-    <div className="status">{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
-    </>
-  )
-  }
+  // return (
+  //   <>
+  //   <div className="status">{status}</div>
+  //     <div className="board-row">
+  //       <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+  //       <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+  //       <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+  //     </div>
+  //     <div className="board-row">
+  //       <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+  //       <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+  //       <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+  //     </div>
+  //     <div className="board-row">
+  //       <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+  //       <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+  //       <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+  //     </div>
+  //   </>
+  // )
+  // }
 
   /* 
 
@@ -1261,3 +1261,125 @@ have a shape like this:
 ]
 */
 
+/* 
+
+LIFTING STATE UP... AGAIN!
+
+Now we write a new top-level component called 
+'Game' or 'fullGame' to display a list of all 
+past moves, this is where the 'history' state that 
+contains our game history will be housed 
+
+Placing the history state into the Game component
+will allow removal of the squares state from it's 
+child Board component. 
+
+Just like when we lifted state earlier from the Square 
+component into the board component, we will now lift 
+the state up from the Board component into our top-level
+Game component. 
+
+This will give the Game component full control over the 
+Board's data and allows instructions for the 
+Board component, to leverage renderings of 
+ previous versions of the game,
+  or past moves that have been made
+
+First we add a Game component, but CRUCIALLY, we 
+prefix 'export default function Game', the 
+export default declaration will tell the index.js
+file to use the Game component as the top-level component 
+instead of the Board component
+
+The additional div's returned by the new top-level 
+Game component are making room for the game info
+that will be added later 
+
+
+*/ 
+
+
+function determineWinner(squares){
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for(let i = 0; i < lines.length; i++){
+    const [a, b, c] = lines[i];
+    if(squares[a] && squares[a] === 
+      squares[b] && squares[a] === 
+      squares[c]){
+        return squares[a];
+      }
+  }
+  return null;
+}
+
+function Square({value, onSquareClick}){
+  return (
+    <button className="square" onClick={onSquareClick}>
+      {value}
+    </button>
+  )
+}
+
+
+const squares = [null, null, null, null, null, null, null, null, null];
+const nextSquares = ['X', null, null, null, null, null, null, null, null];
+
+export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  function handleClick(i) {
+
+
+if(squares[i] || determineWinner(squares)){
+  return;
+}
+const nextSquares = squares.slice();
+if (xIsNext) {
+  nextSquares[i] = "X";
+} else {
+  nextSquares[i] = "O";
+}
+setSquares(nextSquares);
+setXIsNext(!xIsNext);
+}
+
+const winner = determineWinner(squares);
+let status;
+if(winner){
+  status = `Winner is: ${winner}`
+} else {
+  status = `Next player: ${xIsNext ? "X" : "O"} `
+}
+
+
+return (
+  <>
+  <div className="status">{status}</div>
+    <div className="board-row">
+      <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+      <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+      <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+    </div>
+    <div className="board-row">
+      <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+      <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+      <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+    </div>
+    <div className="board-row">
+      <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+      <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+      <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+    </div>
+  </>
+)
+}
