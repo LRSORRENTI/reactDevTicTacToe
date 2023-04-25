@@ -1958,7 +1958,295 @@ will disappear
 
 */
 
-function Square({ value, onSquareClick }) {
+// function Square({ value, onSquareClick }) {
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   );
+// }
+
+// function Board({ xIsNext, squares, onPlay }) {
+//   function handleClick(i) {
+//     if (calculateWinner(squares) || squares[i]) {
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = 'X';
+//     } else {
+//       nextSquares[i] = 'O';
+//     }
+//     onPlay(nextSquares);
+//   }
+
+//   const winner = calculateWinner(squares);
+//   let status;
+//   if (winner) {
+//     status = 'Winner: ' + winner;
+//   } else {
+//     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+//   }
+
+//   return (
+//     <>
+//       <div className="status">{status}</div>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   );
+// }
+
+// export default function Game() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [history, setHistory] = useState([Array(9).fill(null)]);
+//   const currentSquares = history[history.length - 1];
+
+//   function handlePlay(nextSquares) {
+//     setHistory([...history, nextSquares]);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   function jumpTo(nextMove) {
+//     // needs logic
+//   }
+
+//   const moves = history.map((squares, move) => {
+//     let description;
+//     if (move > 0) {
+//       description = 'Go to move #' + move;
+//     } else {
+//       description = 'Go to game start';
+//     }
+//     return (
+//       <li key={move}>
+//         <button onClick={() => jumpTo(move)}>{description}</button>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div className="game">
+//       <div className="game-board">
+//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+//       </div>
+//       <div className="game-info">
+//         <ol>{moves}</ol>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function calculateWinner(squares) {
+//   const lines = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
+//   for (let i = 0; i < lines.length; i++) {
+//     const [a, b, c] = lines[i];
+//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+//       return squares[a];
+//     }
+//   }
+//   return null;
+// }
+
+/* 
+But before we can impement jumpTo, we need the Game 
+component to keep track of which step the 
+user is currently viewing, how do we do this?
+
+We can define a new state variable called: 
+actualMove, or currentMove, and defaulting it's 
+value to 0
+
+
+
+
+*/
+
+// function Square({ value, onSquareClick }) {
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   );
+// }
+
+// function Board({ xIsNext, squares, onPlay }) {
+//   function handleClick(i) {
+//     if (calculateWinner(squares) || squares[i]) {
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = 'X';
+//     } else {
+//       nextSquares[i] = 'O';
+//     }
+//     onPlay(nextSquares);
+//   }
+
+//   const winner = calculateWinner(squares);
+//   let status;
+//   if (winner) {
+//     status = 'Winner: ' + winner;
+//   } else {
+//     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+//   }
+
+//   return (
+//     <>
+//       <div className="status">{status}</div>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   );
+// }
+
+// export default function Game() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [history, setHistory] = useState([Array(9).fill(null)]);
+//   const[currentMove, setCurrentMove] = useState(0);
+//   // above is where we add the new state variable
+//   // currentMove, it's default value is 0
+//   const currentSquares = history[history.length - 1];
+
+//   function handlePlay(nextSquares) {
+//     setHistory([...history, nextSquares]);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   function jumpTo(nextMove) {
+//     // Now we also need to add the logic to 
+//     // update that currentMove state variable:
+//     setCurrentMove(nextMove);
+//     setXIsNext(nextMove % 2 === 0)
+//     // the above is using the modulus operator to 
+//     // check if the number we're changing to with 
+//     // currentMove is an even number
+//   }
+
+//   const moves = history.map((squares, move) => {
+//     let description;
+//     if (move > 0) {
+//       description = 'Go to move #' + move;
+//     } else {
+//       description = 'Go to game start';
+//     }
+//     return (
+//       <li key={move}>
+//         <button onClick={() => jumpTo(move)}>{description}</button>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div className="game">
+//       <div className="game-board">
+//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+//       </div>
+//       <div className="game-info">
+//         <ol>{moves}</ol>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function calculateWinner(squares) {
+//   const lines = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
+//   for (let i = 0; i < lines.length; i++) {
+//     const [a, b, c] = lines[i];
+//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+//       return squares[a];
+//     }
+//   }
+//   return null;
+// }
+
+// after adding the logic to check is currentMove 
+// is even, we need to change two things on the Game's 
+// handlePlay function which is called when we 
+// click a square
+
+/*
+If we 'go back in time' and make a new move from 
+that point, we only want to keep the history up 
+to that point specifically, instead of adding 
+nextSquares after all items (... spread operator)
+in history, we add it after all the items in 
+history.slice(0, currentMove + 1) so that we only keep
+that portion of the old history
+
+Every time a move is made, we need to update the 
+currentMove to the point to the latest history entry:
+
+function handlePlay(nextSquares) {
+  const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+  setHistory(nextHistory);
+  setCurrentMove(nextHistory.length - 1);
+  setXIsNext(!xIsNext);
+}
+
+Also we need to modify the Game component to render 
+the currently selected move, instead of always rendering 
+the final move: 
+
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const currentSquares = history[currentMove];
+}
+
+So now below, if we click on any button for a time 
+in the game's history, it will display what the 
+game looked like in that point in time, we've traveled 
+in time, Dr.Who style
+*/
+
+function Square({value, onSquareClick}) {
   return (
     <button className="square" onClick={onSquareClick}>
       {value}
@@ -2013,15 +2301,19 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length - 1];
+  const [currentMove, setCurrentMove] = useState(0);
+  const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]);
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
     setXIsNext(!xIsNext);
   }
 
   function jumpTo(nextMove) {
-    // needs logic
+    setCurrentMove(nextMove);
+    setXIsNext(nextMove % 2 === 0);
   }
 
   const moves = history.map((squares, move) => {
@@ -2069,4 +2361,3 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
