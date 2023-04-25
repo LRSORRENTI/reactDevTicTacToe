@@ -1700,6 +1700,747 @@ game component
 //   }
 
 
+// function Square({ value, onSquareClick }) {
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   );
+// }
+
+// function Board({ xIsNext, squares, onPlay }) {
+//   function handleClick(i) {
+//     if (calculateWinner(squares) || squares[i]) {
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = 'X';
+//     } else {
+//       nextSquares[i] = 'O';
+//     }
+//     onPlay(nextSquares);
+//   }
+
+//   const winner = calculateWinner(squares);
+//   let status;
+//   if (winner) {
+//     status = 'Winner: ' + winner;
+//   } else {
+//     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+//   }
+
+//   return (
+//     <>
+//       <div className="status">{status}</div>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   );
+// }
+
+// export default function Game() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [history, setHistory] = useState([Array(9).fill(null)]);
+//   const currentSquares = history[history.length - 1];
+
+//   function handlePlay(nextSquares) {
+//     setHistory([...history, nextSquares]);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   function jumpTo(nextMove) {
+//     // TODO
+//   }
+
+//   const moves = history.map((squares, move) => {
+//     let description;
+//     if (move > 0) {
+//       description = 'Go to move #' + move;
+//     } else {
+//       description = 'Go to game start';
+//     }
+//     return (
+//       <li>
+//         <button onClick={() => jumpTo(move)}>{description}</button>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div className="game">
+//       <div className="game-board">
+//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+//       </div>
+//       <div className="game-info">
+//         <ol>{moves}</ol>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function calculateWinner(squares) {
+//   const lines = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
+//   for (let i = 0; i < lines.length; i++) {
+//     const [a, b, c] = lines[i];
+//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+//       return squares[a];
+//     }
+//   }
+//   return null;
+// }
+// As of right now, after every click we have an 
+// ordered list of buttons, each button 
+// corresponding to a previous state of the game 
+
+
+// Note that right now we have an error in the 
+// developer console: 
+
+/*  
+
+Warning: Each child in an array or iterator
+should have a unique 'key' prop. Check the render 
+method of 'Game'
+
+We'll fix this error in the next section
+
+*/
+
+/* 
+As we iterate through the game history array inside
+the function passed to map(), the squares argument
+goes through each element of history, and 
+the move argument goes through each array index: 
+0, 1, 2, ..... 
+
+In most cases we need the actual array elements, but 
+for rendering a list of moves we only require the 
+indexes
+
+For each move in the tic-tac-toe game history, we 
+create a list item <li> which contains a button
+<button>, this button will have an onClick event 
+handler which calls the function jumpTo, which we still 
+need to implement
+
+For now, we see a list of moves rendered in an 
+ordered list to the right of the game, each with 
+a button for the time travel mechanic, along with an error 
+in the dev tools
+
+Let's analyze this 'key' error, and why it's occuring
+
+*/
+
+/* 
+
+Picking a key
+
+When we render a list, React stores some information
+about each rendered list item, when we update our list 
+React needs to determine what has changed
+
+We could have added, removed, re-organized, or 
+updated the list items
+
+Imagine transitioning from 
+
+<li>Alexa: 7 tasks left</li>
+li> Ven: 5 tasks left</li>
+
+to:
+
+<li>Ben: 9 tasks left</li>
+<li>Claudia: 8 tasks left</li>
+<li>Alexa: 5 tasks left</li>
+
+
+In addition to the updated counts, a human 
+reading this would say that we swapped Alexa and 
+Ben's ordering. and inserted Claudia between 
+Alexa and Ben
+
+However, React is a computer program, it doesn't 
+know what you intended, so we need to specify
+a key property for each list item to differentiate
+each list item from it's siblings 
+
+Pretend this data was coming from a database, 
+Alexa, Ben, and Claudia's database ID's could 
+be used as tags: 
+
+<li key={user.id}>
+    {user.name}: {user.taskCount} tasks left
+</li>
+
+When a list is re-rendered, React takes each 
+list item key and searches the previous list's 
+items for a matching key. 
+
+If the current list has a key that didn't exist 
+before, React creates a component
+
+If the current list is missing a key that existed 
+in the previous list, React destroys the previous 
+component
+
+If two keys match, the corresponding component is moved
+
+'key' is  a special and reserved property in React
+
+When an element is created, React extracts the 
+key property and stores the key directly on the 
+returned element.
+
+Even though 'key' may look like it's passed as props
+React automatically used 'key' to decide which 
+components to update, there's no way for a component
+to ask what 'key' its parent specified
+
+It's strongly recommended that you assign proper keys
+whenever you build dynamic lists
+
+If you don't have an appropriate key, you may want 
+to consider restructuring your data so that you do
+
+If there is no key specified, React will report error 
+and use the array index as a key by default, using 
+an array index as a key is not good practice, if we do 
+this, and we try to re-order a list's items or 
+inserting/removing list items 
+
+Explicitly passing 'key={i}' silences the 'key' error 
+but has the same problem as array indices and is 
+not best practice either in most cases
+
+Keys do not need to be globally unique, but 
+they need to be unique between components and 
+their siblings 
+*/
+
+/* 
+Implemeting the TIME TRAVEL mechanic
+
+In our game's history, each past move has a unique 
+ID associated with it, it's sequential number of 
+moves
+
+Moves will never be re-ordered, deleted, inserted, 
+so it's safe to use the move index as a key
+
+In the Game function, we can add a key as <li key={move}>,
+and if we reload the rendered game, React's 'key' error 
+will disappear
+
+
+*/
+
+// function Square({ value, onSquareClick }) {
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   );
+// }
+
+// function Board({ xIsNext, squares, onPlay }) {
+//   function handleClick(i) {
+//     if (calculateWinner(squares) || squares[i]) {
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = 'X';
+//     } else {
+//       nextSquares[i] = 'O';
+//     }
+//     onPlay(nextSquares);
+//   }
+
+//   const winner = calculateWinner(squares);
+//   let status;
+//   if (winner) {
+//     status = 'Winner: ' + winner;
+//   } else {
+//     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+//   }
+
+//   return (
+//     <>
+//       <div className="status">{status}</div>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   );
+// }
+
+// export default function Game() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [history, setHistory] = useState([Array(9).fill(null)]);
+//   const currentSquares = history[history.length - 1];
+
+//   function handlePlay(nextSquares) {
+//     setHistory([...history, nextSquares]);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   function jumpTo(nextMove) {
+//     // needs logic
+//   }
+
+//   const moves = history.map((squares, move) => {
+//     let description;
+//     if (move > 0) {
+//       description = 'Go to move #' + move;
+//     } else {
+//       description = 'Go to game start';
+//     }
+//     return (
+//       <li key={move}>
+//         <button onClick={() => jumpTo(move)}>{description}</button>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div className="game">
+//       <div className="game-board">
+//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+//       </div>
+//       <div className="game-info">
+//         <ol>{moves}</ol>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function calculateWinner(squares) {
+//   const lines = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
+//   for (let i = 0; i < lines.length; i++) {
+//     const [a, b, c] = lines[i];
+//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+//       return squares[a];
+//     }
+//   }
+//   return null;
+// }
+
+/* 
+But before we can impement jumpTo, we need the Game 
+component to keep track of which step the 
+user is currently viewing, how do we do this?
+
+We can define a new state variable called: 
+actualMove, or currentMove, and defaulting it's 
+value to 0
+
+
+
+
+*/
+
+// function Square({ value, onSquareClick }) {
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   );
+// }
+
+// function Board({ xIsNext, squares, onPlay }) {
+//   function handleClick(i) {
+//     if (calculateWinner(squares) || squares[i]) {
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = 'X';
+//     } else {
+//       nextSquares[i] = 'O';
+//     }
+//     onPlay(nextSquares);
+//   }
+
+//   const winner = calculateWinner(squares);
+//   let status;
+//   if (winner) {
+//     status = 'Winner: ' + winner;
+//   } else {
+//     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+//   }
+
+//   return (
+//     <>
+//       <div className="status">{status}</div>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   );
+// }
+
+// export default function Game() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [history, setHistory] = useState([Array(9).fill(null)]);
+//   const[currentMove, setCurrentMove] = useState(0);
+//   // above is where we add the new state variable
+//   // currentMove, it's default value is 0
+//   const currentSquares = history[history.length - 1];
+
+//   function handlePlay(nextSquares) {
+//     setHistory([...history, nextSquares]);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   function jumpTo(nextMove) {
+//     // Now we also need to add the logic to 
+//     // update that currentMove state variable:
+//     setCurrentMove(nextMove);
+//     setXIsNext(nextMove % 2 === 0)
+//     // the above is using the modulus operator to 
+//     // check if the number we're changing to with 
+//     // currentMove is an even number
+//   }
+
+//   const moves = history.map((squares, move) => {
+//     let description;
+//     if (move > 0) {
+//       description = 'Go to move #' + move;
+//     } else {
+//       description = 'Go to game start';
+//     }
+//     return (
+//       <li key={move}>
+//         <button onClick={() => jumpTo(move)}>{description}</button>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div className="game">
+//       <div className="game-board">
+//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+//       </div>
+//       <div className="game-info">
+//         <ol>{moves}</ol>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function calculateWinner(squares) {
+//   const lines = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
+//   for (let i = 0; i < lines.length; i++) {
+//     const [a, b, c] = lines[i];
+//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+//       return squares[a];
+//     }
+//   }
+//   return null;
+// }
+
+// after adding the logic to check is currentMove 
+// is even, we need to change two things on the Game's 
+// handlePlay function which is called when we 
+// click a square
+
+/*
+If we 'go back in time' and make a new move from 
+that point, we only want to keep the history up 
+to that point specifically, instead of adding 
+nextSquares after all items (... spread operator)
+in history, we add it after all the items in 
+history.slice(0, currentMove + 1) so that we only keep
+that portion of the old history
+
+Every time a move is made, we need to update the 
+currentMove to the point to the latest history entry:
+
+function handlePlay(nextSquares) {
+  const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+  setHistory(nextHistory);
+  setCurrentMove(nextHistory.length - 1);
+  setXIsNext(!xIsNext);
+}
+
+Also we need to modify the Game component to render 
+the currently selected move, instead of always rendering 
+the final move: 
+
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const currentSquares = history[currentMove];
+}
+
+So now below, if we click on any button for a time 
+in the game's history, it will display what the 
+game looked like in that point in time, we've traveled 
+in time, Dr.Who style
+*/
+
+// function Square({value, onSquareClick}) {
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   );
+// }
+
+// function Board({ xIsNext, squares, onPlay }) {
+//   function handleClick(i) {
+//     if (calculateWinner(squares) || squares[i]) {
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = 'X';
+//     } else {
+//       nextSquares[i] = 'O';
+//     }
+//     onPlay(nextSquares);
+//   }
+
+//   const winner = calculateWinner(squares);
+//   let status;
+//   if (winner) {
+//     status = 'Winner: ' + winner;
+//   } else {
+//     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+//   }
+
+//   return (
+//     <>
+//       <div className="status">{status}</div>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   );
+// }
+
+// export default function Game() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [history, setHistory] = useState([Array(9).fill(null)]);
+//   const [currentMove, setCurrentMove] = useState(0);
+//   const currentSquares = history[currentMove];
+
+//   function handlePlay(nextSquares) {
+//     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+//     setHistory(nextHistory);
+//     setCurrentMove(nextHistory.length - 1);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   function jumpTo(nextMove) {
+//     setCurrentMove(nextMove);
+//     setXIsNext(nextMove % 2 === 0);
+//   }
+
+//   const moves = history.map((squares, move) => {
+//     let description;
+//     if (move > 0) {
+//       description = 'Go to move #' + move;
+//     } else {
+//       description = 'Go to game start';
+//     }
+//     return (
+//       <li key={move}>
+//         <button onClick={() => jumpTo(move)}>{description}</button>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div className="game">
+//       <div className="game-board">
+//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+//       </div>
+//       <div className="game-info">
+//         <ol>{moves}</ol>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function calculateWinner(squares) {
+//   const lines = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
+//   for (let i = 0; i < lines.length; i++) {
+//     const [a, b, c] = lines[i];
+//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+//       return squares[a];
+//     }
+//   }
+//   return null;
+// }
+
+// Final cleanup
+
+// If we look at the code closely, we see that 
+/* 
+XIsNext === true, when currentMove is even and 
+XIsnext === false when currentMove is odd
+
+In other words if we know the value of currentMove, 
+we can always figure out what the value of currentMove 
+is, and we can always figure out what xIsNext should be
+
+There isn't any reason to store both of these in state, 
+in fact always try to avoid redundant state
+
+Simplifying what we store in state reduces bugs and 
+makes code easier to understand. 
+
+We can change Game so that it doesn't store XIsNext 
+as a separate variable, and instead figures it out 
+based on the currentMove:
+
+
+export default function Game() {
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  // above we added the check to see 
+  //if currentMove is even, we can safely remove
+  //the setXIsNext from handleplay and jump
+  const currentSquares = history[currentMove];
+
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+  // ...
+}
+
+
+ setXIsNext(!xIsNext); is removed from handlePlay, and 
+     setXIsNext(nextMove % 2 === 0); is removed from 
+     jumpTo()
+*/
+
+/* 
+You no longer need the xIsNext state declaration
+ or the calls to setXIsNext.
+  
+  Now, there’s no chance for xIsNext 
+  to get out of sync with currentMove, even if 
+you make a mistake while coding the components.
+
+*/
+
+/* 
+
+Wrapping up:
+
+Congrats! You've created a tic-tac-toe game 
+that: 
+
+- Has the functionality of a tic-tac-toe game
+
+- Indicates if a player has won
+
+- Stores the game's history as it progresses 
+
+- Allows players to 'time travel' to previous 
+  states in the game 
+
+
+*/
+
+
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
@@ -1753,17 +2494,19 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length - 1];
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]);
-    setXIsNext(!xIsNext);
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
   }
 
   function jumpTo(nextMove) {
-    // TODO
+    setCurrentMove(nextMove);
   }
 
   const moves = history.map((squares, move) => {
@@ -1774,7 +2517,7 @@ export default function Game() {
       description = 'Go to game start';
     }
     return (
-      <li>
+      <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
@@ -1811,20 +2554,3 @@ function calculateWinner(squares) {
   }
   return null;
 }
-// As of right now, after every click we have an 
-// ordered list of buttons, each button 
-// corresponding to a previous state of the game 
-
-
-// Note that right now we have an error in the 
-// developer console: 
-
-/*  
-
-Warning: Each child in an array or iterator
-should have a unique 'key' prop. Check the render 
-method of 'Game'
-
-We'll fix this error in the next section
-
-*/
