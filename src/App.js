@@ -2246,7 +2246,202 @@ game looked like in that point in time, we've traveled
 in time, Dr.Who style
 */
 
-function Square({value, onSquareClick}) {
+// function Square({value, onSquareClick}) {
+//   return (
+//     <button className="square" onClick={onSquareClick}>
+//       {value}
+//     </button>
+//   );
+// }
+
+// function Board({ xIsNext, squares, onPlay }) {
+//   function handleClick(i) {
+//     if (calculateWinner(squares) || squares[i]) {
+//       return;
+//     }
+//     const nextSquares = squares.slice();
+//     if (xIsNext) {
+//       nextSquares[i] = 'X';
+//     } else {
+//       nextSquares[i] = 'O';
+//     }
+//     onPlay(nextSquares);
+//   }
+
+//   const winner = calculateWinner(squares);
+//   let status;
+//   if (winner) {
+//     status = 'Winner: ' + winner;
+//   } else {
+//     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+//   }
+
+//   return (
+//     <>
+//       <div className="status">{status}</div>
+//       <div className="board-row">
+//         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+//         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+//         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+//         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+//         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+//       </div>
+//       <div className="board-row">
+//         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+//         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+//         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+//       </div>
+//     </>
+//   );
+// }
+
+// export default function Game() {
+//   const [xIsNext, setXIsNext] = useState(true);
+//   const [history, setHistory] = useState([Array(9).fill(null)]);
+//   const [currentMove, setCurrentMove] = useState(0);
+//   const currentSquares = history[currentMove];
+
+//   function handlePlay(nextSquares) {
+//     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+//     setHistory(nextHistory);
+//     setCurrentMove(nextHistory.length - 1);
+//     setXIsNext(!xIsNext);
+//   }
+
+//   function jumpTo(nextMove) {
+//     setCurrentMove(nextMove);
+//     setXIsNext(nextMove % 2 === 0);
+//   }
+
+//   const moves = history.map((squares, move) => {
+//     let description;
+//     if (move > 0) {
+//       description = 'Go to move #' + move;
+//     } else {
+//       description = 'Go to game start';
+//     }
+//     return (
+//       <li key={move}>
+//         <button onClick={() => jumpTo(move)}>{description}</button>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div className="game">
+//       <div className="game-board">
+//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+//       </div>
+//       <div className="game-info">
+//         <ol>{moves}</ol>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function calculateWinner(squares) {
+//   const lines = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
+//   for (let i = 0; i < lines.length; i++) {
+//     const [a, b, c] = lines[i];
+//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+//       return squares[a];
+//     }
+//   }
+//   return null;
+// }
+
+// Final cleanup
+
+// If we look at the code closely, we see that 
+/* 
+XIsNext === true, when currentMove is even and 
+XIsnext === false when currentMove is odd
+
+In other words if we know the value of currentMove, 
+we can always figure out what the value of currentMove 
+is, and we can always figure out what xIsNext should be
+
+There isn't any reason to store both of these in state, 
+in fact always try to avoid redundant state
+
+Simplifying what we store in state reduces bugs and 
+makes code easier to understand. 
+
+We can change Game so that it doesn't store XIsNext 
+as a separate variable, and instead figures it out 
+based on the currentMove:
+
+
+export default function Game() {
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  // above we added the check to see 
+  //if currentMove is even, we can safely remove
+  //the setXIsNext from handleplay and jump
+  const currentSquares = history[currentMove];
+
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+  // ...
+}
+
+
+ setXIsNext(!xIsNext); is removed from handlePlay, and 
+     setXIsNext(nextMove % 2 === 0); is removed from 
+     jumpTo()
+*/
+
+/* 
+You no longer need the xIsNext state declaration
+ or the calls to setXIsNext.
+  
+  Now, there’s no chance for xIsNext 
+  to get out of sync with currentMove, even if 
+you make a mistake while coding the components.
+
+*/
+
+/* 
+
+Wrapping up:
+
+Congrats! You've created a tic-tac-toe game 
+that: 
+
+- Has the functionality of a tic-tac-toe game
+
+- Indicates if a player has won
+
+- Stores the game's history as it progresses 
+
+- Allows players to 'time travel' to previous 
+  states in the game 
+
+
+*/
+
+
+function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
       {value}
@@ -2299,21 +2494,19 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-    setXIsNext(!xIsNext);
   }
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
-    setXIsNext(nextMove % 2 === 0);
   }
 
   const moves = history.map((squares, move) => {
