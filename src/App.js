@@ -2443,7 +2443,7 @@ that:
 
 function Square({ value, onSquareClick }) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button id="neonText" className="square" onClick={onSquareClick}>
       {value}
     </button>
   );
