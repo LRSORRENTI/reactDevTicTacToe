@@ -2443,7 +2443,7 @@ that:
 
 function Square({ value, onSquareClick }) {
   return (
-    <button id="neonText" className="square" onClick={onSquareClick}>
+    <button className="square" onClick={onSquareClick}>
       {value}
     </button>
   );
@@ -2518,7 +2518,7 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button  onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
   });
