@@ -1828,3 +1828,107 @@ method of 'Game'
 We'll fix this error in the next section
 
 */
+
+/* 
+As we iterate through the game history array inside
+the function passed to map(), the squares argument
+goes through each element of history, and 
+the move argument goes through each array index: 
+0, 1, 2, ..... 
+
+In most cases we need the actual array elements, but 
+for rendering a list of moves we only require the 
+indexes
+
+For each move in the tic-tac-toe game history, we 
+create a list item <li> which contains a button
+<button>, this button will have an onClick event 
+handler which calls the function jumpTo, which we still 
+need to implement
+
+For now, we see a list of moves rendered in an 
+ordered list to the right of the game, each with 
+a button for the time travel mechanic, along with an error 
+in the dev tools
+
+Let's analyze this 'key' error, and why it's occuring
+
+*/
+
+/* 
+
+Picking a key
+
+When we render a list, React stores some information
+about each rendered list item, when we update our list 
+React needs to determine what has changed
+
+We could have added, removed, re-organized, or 
+updated the list items
+
+Imagine transitioning from 
+
+<li>Alexa: 7 tasks left</li>
+li> Ven: 5 tasks left</li>
+
+to:
+
+<li>Ben: 9 tasks left</li>
+<li>Claudia: 8 tasks left</li>
+<li>Alexa: 5 tasks left</li>
+
+
+In addition to the updated counts, a human 
+reading this would say that we swapped Alexa and 
+Ben's ordering. and inserted Claudia between 
+Alexa and Ben
+
+However, React is a computer program, it doesn't 
+know what you intended, so we need to specify
+a key property for each list item to differentiate
+each list item from it's siblings 
+
+Pretend this data was coming from a database, 
+Alexa, Ben, and Claudia's database ID's could 
+be used as tags: 
+
+<li key={user.id}>
+    {user.name}: {user.taskCount} tasks left
+</li>
+
+When a list is re-rendered, React takes each 
+list item key and searches the previous list's 
+items for a matching key. 
+
+If the current list has a key that didn't exist 
+before, React creates a component
+
+If the current list is missing a key that existed 
+in the previous list, React destroys the previous 
+component
+
+If two keys match, the corresponding component is moved
+
+'key' is  a special and reserved property in React
+
+When an element is created, React extracts the 
+key property and stores the key directly on the 
+returned element.
+
+Even though 'key' may look like it's passed as props
+React automatically used 'key' to decide which 
+components to update, there's no way for a component
+to ask what 'key' its parent specified
+
+It's strongly recommended that you assign proper keys
+whenever you build dynamic lists
+
+If you don't have an appropriate key, you may want 
+to consider restructuring your data so that you do
+
+If there is no key specified, React will report error 
+and use the array index as a key by default 
+
+
+
+*/
