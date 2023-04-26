@@ -2517,13 +2517,20 @@ export default function Game() {
       description = 'Go to game start';
     }
     return (
+      <>
+      <p id="TT">Time Travel</p>
       <li key={move}>
         <button  onClick={() => jumpTo(move)}>{description}</button>
       </li>
+      </>
     );
   });
 
   return (
+    <>
+    <div id="hero-banner">
+  <h1 id="hero-title">Tic Tac Toe</h1>
+</div>
     <div id="gameText" className="game">
       <div id="boardText" className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
@@ -2532,6 +2539,7 @@ export default function Game() {
         <ol>{moves}</ol>
       </div>
     </div>
+    </>
   );
 }
 

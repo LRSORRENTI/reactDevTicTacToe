@@ -113,6 +113,27 @@ ul {
   color: rgb(194, 233, 233);
 }
 
+#hero-text {
+  color: wheat;
+  margin-bottom: 200px;
+  font-size: 70px;
+}
+
+#hero-banner {
+  /* background-color: #222; */
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#hero-title {
+  font-size: clamp(40px, 5vw, 70px);
+  color: #fff;
+  text-align: center;
+  max-width: 90%;
+}
+
 .game {
   display: flex;
   justify-content: center;
