@@ -11,13 +11,21 @@ your Square component in the App.js file. */
 
 * {
   box-sizing: border-box;
-  background-color: rgba(163, 255, 255, 0.725);
+
+  /* background-color: rgba(163, 255, 255, 0.725); */
 }
 
 body {
   font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
+  /* margin: 20px; */
+  background-color: #1c1c1c;
+  background-image: linear-gradient(45deg, #303030 25%, transparent 25%),
+    linear-gradient(-45deg, #303030 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #303030 75%),
+    linear-gradient(-45deg, transparent 75%, #303030 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  /* background: linear-gradient(to center, #000000, #111111, #222222, #333333); */
 }
 
 h1 {
@@ -57,20 +65,49 @@ code {
 ul {
   padding-left: 20px;
 }
-
+/* 
 .square {
-  background: #ffffff;
-  border: 1px solid #f32626;
+  background: #00000000;
+
+  border: 1px solid rgb(208, 255, 0);
+  box-shadow: 0 0 10px #85ff4d, 0 0 10px #72e61e, 0 0 21px #df1d1d,
+    0 0 10px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe,
+    0 0 20px #bc13fe;
   float: left;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
+  height: 4em;
+  width: 4em;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+} */
+
+.square {
+  background: #00000000;
+  /* border: 1px solid #f32626; */
+  border: 1px solid rgb(208, 255, 0);
+  box-shadow: 0 0 10px #85ff4d, 0 0 10px #72e61e, 0 0 21px #df1d1d,
+    0 0 10px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe,
+    0 0 20px #bc13fe;
+  float: left;
+  font-size: 3em;
+  font-weight: bold;
+  line-height: 80px;
+  height: 120px;
+  width: 120px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
+@media (max-width: 547px) {
+  .board {
+    width: 300px;
+  }
 }
 
 .board-row:after {
@@ -82,11 +119,75 @@ ul {
 .status {
   margin-bottom: 10px;
 }
+#statusText {
+  font-size: 2rem;
+  color: #6edbff;
+  box-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 10px #bc13fe,
+    0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe;
+}
+
+#gameText {
+  color: #72e61e;
+}
+
+#boardText {
+  color: #df1d1d;
+}
+
+#test {
+  color: rgb(194, 233, 233);
+}
+
+#hero-text {
+  color: wheat;
+  margin-bottom: 200px;
+  font-size: 70px;
+}
+
+#hero-banner {
+  /* background-color: #222; */
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#hero-title {
+  font-size: clamp(40px, 5vw, 70px);
+  color: #fff;
+  text-align: center;
+  max-width: 90%;
+}
+
+#mark {
+  color: white;
+}
+
 .game {
   display: flex;
+  justify-content: center;
   flex-direction: row;
+  padding-bottom: 100vh;
 }
 
 .game-info {
   margin-left: 20px;
 }
+/* 
+#neonText {
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #bc13fe,
+    0 0 82px #bc13fe, 0 0 92px #bc13fe, 0 0 102px #bc13fe, 0 0 151px #bc13fe;
+} */
+/* 
+@keyframes pulsate {
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #bc13fe,
+      0 0 80px #bc13fe, 0 0 90px #bc13fe, 0 0 100px #bc13fe, 0 0 150px #bc13fe;
+  }
+
+  0% {
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #fff, 0 0 10px #bc13fe,
+      0 0 45px #bc13fe, 0 0 55px #bc13fe, 0 0 70px #bc13fe, 0 0 80px #bc13fe;
+  }
+} */
