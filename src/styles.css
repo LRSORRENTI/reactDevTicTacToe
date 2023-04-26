@@ -11,17 +11,21 @@ your Square component in the App.js file. */
 
 * {
   box-sizing: border-box;
+
   /* background-color: rgba(163, 255, 255, 0.725); */
 }
 
 body {
   font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
-
-  background: linear-gradient(to center, #000000, #111111, #222222, #333333);
-  height: 100vh;
-  width: 100vw;
+  /* margin: 20px; */
+  background-color: #1c1c1c;
+  background-image: linear-gradient(45deg, #303030 25%, transparent 25%),
+    linear-gradient(-45deg, #303030 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #303030 75%),
+    linear-gradient(-45deg, transparent 75%, #303030 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  /* background: linear-gradient(to center, #000000, #111111, #222222, #333333); */
 }
 
 h1 {
@@ -63,11 +67,12 @@ ul {
 }
 
 .square {
-  background: #ffffff;
+  background: #00000000;
   /* border: 1px solid #f32626; */
   border: 1px solid rgb(208, 255, 0);
-  box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #bc13fe,
-    0 0 82px #bc13fe, 0 0 92px #bc13fe, 0 0 102px #bc13fe, 0 0 151px #bc13fe;
+  box-shadow: 0 0 10px #85ff4d, 0 0 10px #72e61e, 0 0 21px #df1d1d,
+    0 0 10px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe,
+    0 0 20px #bc13fe;
   float: left;
   font-size: 30px;
   font-weight: bold;
@@ -89,6 +94,25 @@ ul {
 .status {
   margin-bottom: 10px;
 }
+#statusText {
+  font-size: 2rem;
+  color: #6edbff;
+  box-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 10px #bc13fe,
+    0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe;
+}
+
+#gameText {
+  color: #72e61e;
+}
+
+#boardText {
+  color: #df1d1d;
+}
+
+#test {
+  color: rgb(194, 233, 233);
+}
+
 .game {
   display: flex;
   justify-content: center;
