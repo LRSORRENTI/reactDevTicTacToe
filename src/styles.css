@@ -65,10 +65,10 @@ code {
 ul {
   padding-left: 20px;
 }
-
+/* 
 .square {
   background: #00000000;
-  /* border: 1px solid #f32626; */
+
   border: 1px solid rgb(208, 255, 0);
   box-shadow: 0 0 10px #85ff4d, 0 0 10px #72e61e, 0 0 21px #df1d1d,
     0 0 10px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe,
@@ -83,6 +83,31 @@ ul {
   margin-top: -1px;
   padding: 0;
   text-align: center;
+} */
+
+.square {
+  background: #00000000;
+  /* border: 1px solid #f32626; */
+  border: 1px solid rgb(208, 255, 0);
+  box-shadow: 0 0 10px #85ff4d, 0 0 10px #72e61e, 0 0 21px #df1d1d,
+    0 0 10px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe, 0 0 20px #bc13fe,
+    0 0 20px #bc13fe;
+  float: left;
+  font-size: 3em;
+  font-weight: bold;
+  line-height: 80px;
+  height: 120px;
+  width: 120px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
+@media (max-width: 547px) {
+  .board {
+    width: 300px;
+  }
 }
 
 .board-row:after {
