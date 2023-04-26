@@ -2511,6 +2511,11 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
+  function resetGame() {
+    setHistory([Array(9).fill(null)]);
+    setCurrentMove(0);
+  }
+
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
@@ -2532,6 +2537,7 @@ export default function Game() {
     <>
     <div id="hero-banner">
   <h1 id="hero-title">Tic Tac Toe</h1>
+  <button onClick={resetGame}>Reset Game</button>
 </div>
     <div id="gameText" className="game">
       <div id="boardText" className="game-board">
