@@ -134,6 +134,10 @@ ul {
   max-width: 90%;
 }
 
+#mark {
+  color: white;
+}
+
 .game {
   display: flex;
   justify-content: center;

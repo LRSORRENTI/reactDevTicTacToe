@@ -2443,9 +2443,11 @@ that:
 
 function Square({ value, onSquareClick }) {
   return (
+    <>
     <button className="square" onClick={onSquareClick}>
-      {value}
+      <span id="mark">{value}</span>
     </button>
+    </>
   );
 }
 
@@ -2518,7 +2520,7 @@ export default function Game() {
     }
     return (
       <>
-      <p id="TT">Time Travel</p>
+       {move === 0 && <p id="TT">Time Travel</p>}
       <li key={move}>
         <button  onClick={() => jumpTo(move)}>{description}</button>
       </li>
