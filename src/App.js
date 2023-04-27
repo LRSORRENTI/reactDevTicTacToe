@@ -2537,8 +2537,8 @@ export default function Game() {
     <>
     <div id="hero-banner">
   <h1 id="hero-title">Tic Tac Toe</h1>
-  <button onClick={resetGame}>Reset Game</button>
 </div>
+<button id="glow-on-hover" onClick={resetGame}>Reset Game</button>
     <div id="gameText" className="game">
       <div id="boardText" className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
