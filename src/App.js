@@ -2527,7 +2527,7 @@ export default function Game() {
       <>
        {move === 0 && <p id="TT">Time Travel</p>}
       <li key={move}>
-        <button  onClick={() => jumpTo(move)}>{description}</button>
+        <button id="glow-on-hover" onClick={() => jumpTo(move)}>{description}</button>
       </li>
       </>
     );
