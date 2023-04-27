@@ -153,10 +153,11 @@ ul {
 }
 
 #hero-title {
-  font-size: clamp(40px, 5vw, 70px);
+  font-size: clamp(79px, 5vw, 119px);
   color: #fff;
   text-align: center;
   max-width: 90%;
+  margin-right: 60px;
 }
 
 #mark {
