@@ -2439,7 +2439,8 @@ that:
 
 
 */
-
+import './testingThisGlow/glow.css'
+import './testingThisGlow/glow.js'
 
 function Square({ value, onSquareClick }) {
   return (
@@ -2536,7 +2537,7 @@ export default function Game() {
   return (
     <>
     <div id="hero-banner">
-  <h1 id="hero-title">Tic Tac Toe</h1>
+  <h1 className="testingThisGlow">Tic Tac Toe</h1>
 </div>
 <button id="glow-on-hover" onClick={resetGame}>Reset Game</button>
     <div id="gameText" className="game">
