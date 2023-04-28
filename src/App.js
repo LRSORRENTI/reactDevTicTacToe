@@ -2439,8 +2439,8 @@ that:
 
 
 */
-import './testingThisGlow/glow.css'
-import './testingThisGlow/glow.js'
+// import './testingThisGlow/glow.css'
+import './testingThisGlow/glow'
 
 function Square({ value, onSquareClick }) {
   return (
